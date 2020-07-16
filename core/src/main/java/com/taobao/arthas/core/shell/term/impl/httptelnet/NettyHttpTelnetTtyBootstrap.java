@@ -84,7 +84,7 @@ public class NettyHttpTelnetTtyBootstrap {
     }
 
     public CompletableFuture<?> start(Consumer<TtyConnection> factory) {
-        CompletableFuture<?> fut = new CompletableFuture();
+        CompletableFuture<?> fut = new CompletableFuture(); //Netty异步回调结果使用，目前看起来调用者并没有关系这个CompletableFuture add by binjie
         start(factory, Helper.startedHandler(fut));
         return fut;
     }

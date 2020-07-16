@@ -198,7 +198,7 @@ public class JobControllerImpl implements JobController {
             }
         }
         ProcessOutput ProcessOutput = new ProcessOutput(stdoutHandlerChain, cacheLocation, term);
-        return new ProcessImpl(command, remaining, command.processHandler(), ProcessOutput);
+        return new ProcessImpl(command, remaining, command.processHandler(), ProcessOutput); //remaining是命令的参数 add by binjie
     }
 
     private String getRedirectFileName(ListIterator<CliToken> tokens) {

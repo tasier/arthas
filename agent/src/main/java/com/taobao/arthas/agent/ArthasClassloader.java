@@ -8,7 +8,7 @@ import java.net.URLClassLoader;
  */
 public class ArthasClassloader extends URLClassLoader {
     public ArthasClassloader(URL[] urls) {
-        super(urls, ClassLoader.getSystemClassLoader().getParent());
+        super(urls, ClassLoader.getSystemClassLoader().getParent()); //FIXME ArthasClassloader的父类加载器是ExtClassLoader，下面注释有误 add by binjie
     }
 
     @Override

@@ -333,6 +333,7 @@ public class Bootstrap {
         // select pid
         if (pid < 0) {
             try {
+                //FIXME 选择要attacth的java pid add by binjie
                 pid = ProcessUtils.select(bootstrap.isVerbose(), telnetPortPid);
             } catch (InputMismatchException e) {
                 System.out.println("Please input an integer to select pid.");
@@ -501,7 +502,7 @@ public class Bootstrap {
 
             AnsiLog.info("Try to attach process " + pid);
             AnsiLog.debug("Start arthas-core.jar args: " + attachArgs);
-            ProcessUtils.startArthasCore(pid, attachArgs);
+            ProcessUtils.startArthasCore(pid, attachArgs); //FIXME 起了一个新的java进程，进行attatch操作，并load agent add by binjie
 
             AnsiLog.info("Attach process {} success.", pid);
         }
@@ -544,7 +545,7 @@ public class Bootstrap {
 
         // fix https://github.com/alibaba/arthas/issues/833
         Thread.currentThread().setContextClassLoader(classLoader);
-        mainMethod.invoke(null, new Object[] { telnetArgs.toArray(new String[0]) });
+        mainMethod.invoke(null, new Object[] { telnetArgs.toArray(new String[0]) }); //FIXME 通过反射的方式启动client
     }
 
     private static String listVersions(String mavenMetaData) {

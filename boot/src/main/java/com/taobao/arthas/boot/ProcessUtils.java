@@ -29,7 +29,7 @@ public class ProcessUtils {
 
     @SuppressWarnings("resource")
     public static long select(boolean v, long telnetPortPid) throws InputMismatchException {
-        Map<Long, String> processMap = listProcessByJps(v);
+        Map<Long, String> processMap = listProcessByJps(v); //执行jps -l命令获取java进程 add by binjie
         // Put the port that is already listening at the first
         if (telnetPortPid > 0 && processMap.containsKey(telnetPortPid)) {
             String telnetPortProcess = processMap.get(telnetPortPid);
@@ -212,6 +212,7 @@ public class ProcessUtils {
         command.add(javaPath.getAbsolutePath());
 
         if (toolsJar != null && toolsJar.exists()) {
+            //FIXME add by binjie https://www.cnblogs.com/zpbolgs/p/7267384.html
             command.add("-Xbootclasspath/a:" + toolsJar.getAbsolutePath());
         }
 
@@ -226,7 +227,7 @@ public class ProcessUtils {
         // -core "${arthas_lib_dir}/arthas-core.jar" \
         // -agent "${arthas_lib_dir}/arthas-agent.jar"
 
-        ProcessBuilder pb = new ProcessBuilder(command);
+        ProcessBuilder pb = new ProcessBuilder(command); //FIXME 注意-core参数是arthas-core.jar，后面有命名不规范的地方 add by binjie
         try {
             final Process proc = pb.start();
             Thread redirectStdout = new Thread(new Runnable() {

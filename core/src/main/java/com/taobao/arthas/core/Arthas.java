@@ -82,9 +82,10 @@ public class Arthas {
             if (null == virtualMachineDescriptor) { // 使用 attach(String pid) 这种方式
                 virtualMachine = VirtualMachine.attach("" + configure.getJavaPid());
             } else {
-                virtualMachine = VirtualMachine.attach(virtualMachineDescriptor);
+                virtualMachine = VirtualMachine.attach(virtualMachineDescriptor); //FIXME attath到目标java进程 add by binjie
             }
 
+            //检查目标java进程的版本是否和当前java进程的版本一样
             Properties targetSystemProperties = virtualMachine.getSystemProperties();
             String targetJavaVersion = JavaVersionUtils.javaVersionStr(targetSystemProperties);
             String currentJavaVersion = JavaVersionUtils.javaVersionStr();
@@ -101,6 +102,7 @@ public class Arthas {
             //convert jar path to unicode string
             configure.setArthasAgent(encodeArg(arthasAgentPath));
             configure.setArthasCore(encodeArg(configure.getArthasCore()));
+            //FIXME 目标java进程进行加载agent。<1>进去看loadAgent api的注释 <2>传递给agent的参数是arthas-core.jar和arthas-boot.jar传递过来的参数 add by binjie
             virtualMachine.loadAgent(arthasAgentPath,
                     configure.getArthasCore() + ";" + configure.toString());
         } finally {

@@ -85,7 +85,7 @@ public class AgentBootstrap {
         }
 
         // 构造自定义的类加载器，尽量减少Arthas对现有工程的侵蚀
-        return loadOrDefineClassLoader(agentJarFile);
+        return loadOrDefineClassLoader(agentJarFile); //FIXME 使用ArthasClassLoader加载arthas-core.jar
     }
 
     private static ClassLoader loadOrDefineClassLoader(File agentJar) throws Throwable {
@@ -105,6 +105,7 @@ public class AgentBootstrap {
             // 传递的args参数分两个部分:agentJar路径和agentArgs, 分别是Agent的JAR包路径和期望传递到服务端的参数
             args = decodeArg(args);
             int index = args.indexOf(';');
+            //FIXME add by binjie [arthas-core.jar的路径 ->com.taobao.arthas.core.Arthas#attachAgent]，这里命名不规范，agentJar实际上是arthas-core.jar
             String agentJar = args.substring(0, index);
             final String agentArgs = args.substring(index);
 
@@ -159,8 +160,8 @@ public class AgentBootstrap {
          * ArthasBootstrap bootstrap = ArthasBootstrap.getInstance(inst);
          * </pre>
          */
-        Class<?> bootstrapClass = agentLoader.loadClass(ARTHAS_BOOTSTRAP);
-        Object bootstrap = bootstrapClass.getMethod(GET_INSTANCE, Instrumentation.class).invoke(null, inst);
+        Class<?> bootstrapClass = agentLoader.loadClass(ARTHAS_BOOTSTRAP); //FIXME add by binjie [ArthasClassLoader加载core中的类ArthasBootstrap]
+        Object bootstrap = bootstrapClass.getMethod(GET_INSTANCE, Instrumentation.class).invoke(null, inst); //FIXME add by binjie [实例化ArthasBootstrap类]
         boolean isBind = (Boolean) bootstrapClass.getMethod(IS_BIND).invoke(bootstrap);
         if (!isBind) {
             try {

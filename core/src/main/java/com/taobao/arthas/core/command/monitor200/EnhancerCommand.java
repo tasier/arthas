@@ -109,7 +109,7 @@ public abstract class EnhancerCommand extends AnnotatedCommand {
             }
 
             EnhancerAffect effect = Enhancer.enhance(inst, lock, listener instanceof InvokeTraceable,
-                    skipJDKTrace, getClassNameMatcher(), getMethodNameMatcher());
+                    skipJDKTrace, getClassNameMatcher(), getMethodNameMatcher()); //FIXME 字节码增强在这里进行 add by binjie
 
             if (effect.cCnt() == 0 || effect.mCnt() == 0) {
                 // no class effected

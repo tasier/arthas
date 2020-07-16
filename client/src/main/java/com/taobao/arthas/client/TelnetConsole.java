@@ -230,6 +230,7 @@ public class TelnetConsole {
                 }
             }
 
+            //创建Telnet客户端 add by binjie
             final TelnetClient telnet = new TelnetClient();
             telnet.setConnectTimeout(DEFAULT_CONNECTION_TIMEOUT);
 
@@ -273,6 +274,9 @@ public class TelnetConsole {
             }
 
             if (cmds.isEmpty()) {
+                //关键：起了两个异步线程去处理输入输出
+                //System.in输入重定向到telnet.getOutputStream()
+                //telnet.getInputStream()重定向到System.out
                 IOUtil.readWrite(telnet.getInputStream(), telnet.getOutputStream(), System.in,
                                 consoleReader.getOutput());
             } else {

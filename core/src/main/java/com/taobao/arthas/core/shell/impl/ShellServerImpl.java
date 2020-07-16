@@ -100,10 +100,10 @@ public class ShellServerImpl extends ShellServer {
 
         ShellImpl session = createShell(term);
         session.setWelcome(welcomeMessage);
-        session.closedFuture.setHandler(new SessionClosedHandler(this, session));
+        session.closedFuture.setHandler(new SessionClosedHandler(this, session));//ShellServerImpl -> removeSession add by binjie
         session.init();
         sessions.put(session.id, session); // Put after init so the close handler on the connection is set
-        session.readline(); // Now readline
+        session.readline(); // Now readline FIXME netty最终会回调到这里 add by binjie
     }
 
     @Override
@@ -123,8 +123,8 @@ public class ShellServerImpl extends ShellServer {
         }
         Handler<Future<TermServer>> handler = new TermServerListenHandler(this, listenHandler, toStart);
         for (TermServer termServer : toStart) {
-            termServer.termHandler(new TermServerTermHandler(this));
-            termServer.listen(handler);
+            termServer.termHandler(new TermServerTermHandler(this)); //FIXME ShellServerImpl-> handleTerm add by binjie
+            termServer.listen(handler); //FIXME 服务端启动入口 add by binjie
         }
         return this;
     }

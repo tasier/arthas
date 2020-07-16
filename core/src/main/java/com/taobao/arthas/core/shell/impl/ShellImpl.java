@@ -152,7 +152,7 @@ public class ShellImpl implements Shell {
     }
 
     public void readline() {
-        term.readline(prompt, new ShellLineHandler(this),
+        term.readline(prompt, new ShellLineHandler(this), //FIXME ShellLineHandler是入口，从这里进去 add by binjie
                 new CommandManagerCompletionHandler(commandManager));
     }
 
